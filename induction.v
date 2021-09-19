@@ -1,5 +1,3 @@
-From LF Require Export basics.
-
 Theorem plus_n_O_firsttry :
   forall n : nat, n = n + 0.
 
@@ -130,13 +128,3 @@ Fixpoint bin_to_nat (m : bin) : nat :=
   | B1 (B1 m') => S (S (S (bin_to_nat m')))
   | B1 m' => S (bin_to_nat m')
   end.
-
-Theorem bin_to_nat_pres_incr :
-  forall b : bin, (bin_to_nat (incr b)) = (S (bin_to_nat b)).
-Proof.
-  induction b as [ | b0' | b1'].
-  - simpl.
-    reflexivity.
-  - simpl.
-    rewrite <- IHb0'.
-  -
