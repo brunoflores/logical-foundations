@@ -87,6 +87,30 @@ Proof.
       simpl.
       reflexivity.
 Qed.
+
+Theorem add_assoc :
+  forall n m p : nat, n + (m + p) = (n + m) + p.
+Proof.
+  induction n as [ | n' IHn' ].
+  - intros m p.
+    rewrite <- plus_n_O_left.
+    rewrite <- plus_n_O_left.
+    reflexivity.
+  - induction m as [ | m' IHm' ].
+    * intros p.
+      rewrite <- plus_n_O_left.
+      simpl.
+      rewrite <- IHn'.
+      rewrite <- plus_n_O_left.
+      reflexivity.
+    * intros p.
+      simpl.
+      rewrite <- plus_n_Sm.
+      rewrite -> IHn'.
+      rewrite <- plus_n_Sm.
+      simpl.
+      reflexivity.
+Qed.
 Theorem plus_comm : forall n m : nat, n + m = m + n.
 Proof.
   induction n as [| n' IHn'].
