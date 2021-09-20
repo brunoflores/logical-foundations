@@ -168,6 +168,17 @@ Proof.
   reflexivity.
 Qed.
 
+Theorem add_shuffle3' :
+  forall n m p : nat, n + (m + p) = m + (n + p).
+Proof.
+  intros n m p.
+  rewrite -> add_comm.
+  assert (H0: n + p = p + n).
+  { rewrite -> add_comm. reflexivity. }
+  rewrite -> H0.
+  rewrite -> add_assoc.
+  reflexivity.
+Qed.
 Inductive bin : Type :=
   | Z
   | B0 (n : bin)
