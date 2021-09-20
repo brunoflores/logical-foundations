@@ -1,5 +1,14 @@
 From LF Require Export Basics.
 
+(* The point here is to show we need induction to prove things over
+   all naturals. *)
+
+Theorem plus_n_O_left :
+  forall n : nat, n = 0 + n.
+Proof.
+  reflexivity.
+Qed.
+
 Theorem plus_n_O_firsttry :
   forall n : nat, n = n + 0.
 Proof.
@@ -10,7 +19,7 @@ Abort.
 Theorem plus_n_O_secondtry :
   forall n : nat, n = n + 0.
 Proof.
-  intros n. destruct n as [|n'] eqn:E.
+  intros n. destruct n as [ | n'] eqn:E.
   - reflexivity.
   - simpl.
 Abort.
@@ -18,14 +27,13 @@ Abort.
 Theorem plus_n_O :
   forall n : nat, n = n + 0.
 Proof.
-  intros n. induction n as [| n' IHn'].
-  - reflexivity.
-  - simpl.
-    rewrite <- IHn'.
-    reflexivity.
+  induction n as [ | n' IHn'].
+  - (* n = 0 *) reflexivity.
+  - (* n = S n' *) simpl. rewrite <- IHn'. reflexivity.
 Qed.
 
-Theorem minus_n_ : forall n, minus n n = 0.
+Theorem minus_n_n :
+  forall n, minus n n = 0.
 Proof.
   induction n as [| n' IHn'].
   - simpl.
@@ -35,9 +43,12 @@ Proof.
     reflexivity.
 Qed.
 
-Theorem mult_0_r : forall n : nat, n * 0 = 0.
+(* Exercise 2: *)
+
+Theorem mult_0_r :
+  forall n : nat, n * 0 = 0.
 Proof.
-  induction n as [| n' IHn'].
+  induction n as [ | n' IHn'].
   - simpl.
     reflexivity.
   - simpl.
@@ -45,9 +56,10 @@ Proof.
     reflexivity.
 Qed.
 
-Theorem plus_n_Sm : forall n m : nat, S (n + m) = n + (S m).
+Theorem plus_n_Sm :
+  forall n m : nat, S (n + m) = n + (S m).
 Proof.
-  induction n as [| n' IHn'].
+  induction n as [ | n' IHn'].
   - intros m.
     simpl.
     reflexivity.
