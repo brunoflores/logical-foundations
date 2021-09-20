@@ -69,6 +69,24 @@ Proof.
     reflexivity.
 Qed.
 
+Theorem add_comm :
+  forall n m : nat, n + m = m + n.
+Proof.
+  induction n as [ | n' IHn'].
+  - intros m.
+    simpl.
+    rewrite <- plus_n_O.
+    reflexivity.
+  - induction m as [ | m' IHm'].
+    * simpl.
+      rewrite <- plus_n_O.
+      reflexivity.
+    * simpl.
+      rewrite <- IHm'.
+      rewrite <- plus_n_Sm.
+      simpl.
+      reflexivity.
+Qed.
 Theorem plus_comm : forall n m : nat, n + m = m + n.
 Proof.
   induction n as [| n' IHn'].
