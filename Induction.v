@@ -179,6 +179,22 @@ Proof.
   rewrite -> add_assoc.
   reflexivity.
 Qed.
+
+Theorem mul_comm :
+  forall m n : nat, m * n = n * m.
+Proof.
+  induction n as [ | n' IHn' ].
+  - simpl.
+    auto.
+  - simpl.
+    assert (H0: m * S n' = m * n' + m).
+    { auto. }
+    rewrite -> H0.
+    rewrite -> add_comm.
+    rewrite -> IHn'.
+    reflexivity.
+Qed.
+
 Inductive bin : Type :=
   | Z
   | B0 (n : bin)
