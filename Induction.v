@@ -133,13 +133,13 @@ Theorem plus_swap :
 Proof.
   intros n m p.
   assert (H0: n + (m + p) = (n + m) + p).
-  { rewrite -> plus_assoc. reflexivity. }
+  { rewrite -> add_assoc. reflexivity. }
   rewrite -> H0.
   assert (H1: m + (n + p) = m + n + p).
-  { rewrite -> plus_assoc. reflexivity. }
+  { rewrite -> add_assoc. reflexivity. }
   rewrite -> H1.
   assert (H2: n + m = m + n).
-  { rewrite -> plus_comm. reflexivity. }
+  { rewrite -> add_comm. reflexivity. }
   rewrite -> H2.
   reflexivity.
 Qed.
