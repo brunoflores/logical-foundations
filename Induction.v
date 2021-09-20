@@ -110,13 +110,22 @@ Proof.
   - simpl. rewrite -> IHn. rewrite -> plus_n_Sm. reflexivity.
 Qed.
 
-Theorem mult_0_plus' : forall n m : nat,
-  (0 + n) * m = n * m.
+Theorem mult_0_plus' :
+  forall n m : nat, (0 + n) * m = n * m.
 Proof.
   intros n m.
   assert (H: 0 + n = n). { reflexivity. }
   rewrite -> H.
   reflexivity.
+Qed.
+
+Theorem plus_rearrange :
+  forall n m p q : nat, (n + m) + (p + q) = (m + n) + (p + q).
+Proof.
+  intros n m p q.
+  assert (H: n + m = m + n).
+  { rewrite -> add_comm. reflexivity. }
+  rewrite -> H. reflexivity.
 Qed.
 
 Theorem plus_swap :
