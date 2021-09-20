@@ -72,44 +72,28 @@ Qed.
 Theorem add_comm :
   forall n m : nat, n + m = m + n.
 Proof.
-  induction n as [ | n' IHn'].
+  induction n as [| n' IHn'].
   - intros m.
     simpl.
     rewrite <- plus_n_O.
     reflexivity.
-  - induction m as [ | m' IHm'].
-    * simpl.
-      rewrite <- plus_n_O.
-      reflexivity.
-    * simpl.
-      rewrite <- IHm'.
-      rewrite <- plus_n_Sm.
-      simpl.
-      reflexivity.
+  - intros m.
+    simpl.
+    rewrite -> IHn'.
+    rewrite -> plus_n_Sm.
+    reflexivity.
 Qed.
 
 Theorem add_assoc :
   forall n m p : nat, n + (m + p) = (n + m) + p.
 Proof.
-  induction n as [ | n' IHn' ].
-  - intros m p.
-    rewrite <- plus_n_O_left.
-    rewrite <- plus_n_O_left.
+  induction n as [| n' IHn'].
+  - simpl.
     reflexivity.
-  - induction m as [ | m' IHm' ].
-    * intros p.
-      rewrite <- plus_n_O_left.
-      simpl.
-      rewrite <- IHn'.
-      rewrite <- plus_n_O_left.
-      reflexivity.
-    * intros p.
-      simpl.
-      rewrite <- plus_n_Sm.
-      rewrite -> IHn'.
-      rewrite <- plus_n_Sm.
-      simpl.
-      reflexivity.
+  - simpl.
+    intros m p.
+    rewrite -> IHn'.
+    reflexivity.
 Qed.
 
 Fixpoint double (n : nat) :=
@@ -124,31 +108,6 @@ Proof.
   induction n.
   - simpl. reflexivity.
   - simpl. rewrite -> IHn. rewrite -> plus_n_Sm. reflexivity.
-Qed.
-Theorem plus_comm : forall n m : nat, n + m = m + n.
-Proof.
-  induction n as [| n' IHn'].
-  - intros m.
-    simpl.
-    rewrite <- plus_n_O.
-    reflexivity.
-  - intros m.
-    simpl.
-    rewrite -> IHn'.
-    rewrite -> plus_n_Sm.
-    reflexivity.
-Qed.
-
-Theorem plus_assoc :
-  forall n m p : nat, n + (m + p) = (n + m) + p.
-Proof.
-  induction n as [| n' IHn'].
-  - simpl.
-    reflexivity.
-  - simpl.
-    intros m p.
-    rewrite -> IHn'.
-    reflexivity.
 Qed.
 
 Theorem mult_0_plus' : forall n m : nat,
