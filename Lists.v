@@ -226,3 +226,64 @@ Module NatList.
 
   Example test_member2: member 2 [1;4;1] = false.
   Proof. reflexivity. Qed.
+
+  Fixpoint remove_one (v : nat) (s : bag) : bag :=
+    match s with
+    | nil => nil
+    | h :: t => match (eq_nat v h) with
+                | true => t (* Halt recursion. *)
+                | false => h :: remove_one v t
+                end
+    end.
+
+  Example test_remove_one1:
+    count 5 (remove_one 5 [2;1;5;4;1]) = 0.
+  Proof. reflexivity. Qed.
+
+  Example test_remove_one2:
+    count 5 (remove_one 5 [2;1;4;1]) = 0.
+  Proof. reflexivity. Qed.
+
+  Example test_remove_one3:
+    count 4 (remove_one 5 [2;1;4;5;1;4]) = 2.
+  Proof. reflexivity. Qed.
+
+  Example test_remove_one4:
+    count 5 (remove_one 5 [2;1;5;5;5;1;4]) = 2.
+  Proof. reflexivity. Qed.
+
+  Fixpoint remove_all (v : nat) (s : bag) : bag :=
+    match s with
+    | nil => nil
+    | h :: t => match eq_nat v h with
+                | true => remove_all v t
+                | false => h :: remove_all v t
+                end
+    end.
+
+  Example test_remove_all1: count 5 (remove_all 5 [2;1;5;4;1]) = 0.
+  Proof. reflexivity. Qed.
+
+  Example test_remove_all2: count 5 (remove_all 5 [2;1;4;1]) = 0.
+  Proof. reflexivity. Qed.
+
+  Example test_remove_all3: count 4 (remove_all 5 [2;1;4;5;1;4]) = 2.
+  Proof. reflexivity. Qed.
+
+  Example test_remove_all4: count 5 (remove_all 5 [2;1;5;4;5;1;4;5;1;4]) = 0.
+  Proof. reflexivity. Qed.
+
+  Fixpoint subset (s1 : bag) (s2 : bag) : bool :=
+    match s1 with
+    | nil => true
+    | h :: t => match member h s2 with
+                | true => subset t (remove_one h s2)
+                | false => false
+                end
+    end.
+
+  Example test_subset1: subset [1;2] [2;1;4;1] = true.
+  Proof. reflexivity. Qed.
+
+  Example test_subset2: subset [1;2;2] [2;1;4;1] = false.
+  Proof. reflexivity. Qed.
