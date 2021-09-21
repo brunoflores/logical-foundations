@@ -178,3 +178,51 @@ Module NatList.
     alternate [] [20;30] = [20;30].
   Proof.
     simpl. reflexivity. Qed.
+
+  (* Bags *)
+
+  Definition bag := natlist.
+
+  Fixpoint eq_nat (n m : nat) : bool :=
+    match n, m with
+    | O, O => true
+    | S _, O => false
+    | O, S _ => false
+    | S n', S m' => eq_nat n' m'
+    end.
+
+  Fixpoint count (v : nat) (s : bag) : nat :=
+    match s with
+    | nil => O
+    | h :: t => if eq_nat h v then S (count v t) else count v t
+    end.
+
+  Example test_count1: count 1 [1;2;3;1;4;1] = 3.
+  Proof.
+    reflexivity. Qed.
+
+  Example test_count2: count 6 [1;2;3;1;4;1] = 0.
+  Proof.
+    reflexivity. Qed.
+
+  Definition sum : bag -> bag -> bag := app.
+
+  Example test_sum1: count 1 (sum [1;2;3] [1;4;1]) = 3.
+  Proof. reflexivity. Qed.
+
+  Definition add (v : nat) (s : bag) : bag := v :: s.
+
+  Example test_add1: count 1 (add 1 [1;4;1]) = 3.
+  Proof. reflexivity. Qed.
+
+  Example test_add2: count 5 (add 1 [1;4;1]) = 0.
+  Proof. reflexivity. Qed.
+
+  Definition member (v : nat) (s : bag) : bool :=
+  if eq_nat (count v s) 0 then false else true.
+
+  Example test_member1: member 1 [1;4;1] = true.
+  Proof. reflexivity. Qed.
+
+  Example test_member2: member 2 [1;4;1] = false.
+  Proof. reflexivity. Qed.
