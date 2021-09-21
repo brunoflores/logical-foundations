@@ -74,3 +74,36 @@ Module NatList.
   Notation "[  ]" := nil.
 
   Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
+
+  Fixpoint repeat (n count : nat) : natlist :=
+    match count with
+    | O => nil
+    | S count' => n :: (repeat n count')
+    end.
+
+  Fixpoint length (l : natlist) : nat :=
+    match l with
+    | nil => O
+    | h :: t => S (length t)
+    end.
+
+  Fixpoint app (l1 l2 : natlist) : natlist :=
+    match l1 with
+    | nil => l2
+    | h :: t => h :: (app t l2)
+    end.
+
+  Notation "x ++ y" := (app x y)
+                       (right associativity, at level 60).
+
+  Definition hd (default : nat) (l : natlist) : nat :=
+    match l with
+    | nil => default
+    | h :: t => h
+    end.
+
+  Definition tl (l : natlist) : natlist :=
+    match l with
+    | nil => nil
+    | h :: t => t
+    end.
