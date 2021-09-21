@@ -353,3 +353,10 @@ Module NatList.
       simpl. rewrite -> IHl'. rewrite -> add_comm.
       reflexivity.
   Qed.
+
+  Theorem app_nil_r:
+    forall l : natlist, l ++ [] = l.
+  Proof.
+    intros l. induction l as [ | n l' IHl' ].
+    - reflexivity.
+    - simpl. rewrite -> IHl'. reflexivity. Qed.
