@@ -45,3 +45,11 @@ Module NatList.
     destruct p as [n m].
     simpl.
     reflexivity. Qed.
+
+  Theorem snd_fst_is_swap :
+    forall (p : natprod), (snd p, fst p) = swap_pair p.
+  Proof.
+    intros p.
+    destruct p as [n m].
+    simpl.
+    reflexivity. Qed.
