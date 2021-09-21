@@ -107,3 +107,47 @@ Module NatList.
     | nil => nil
     | h :: t => t
     end.
+
+  Fixpoint nonzeros (l : natlist) : natlist :=
+    match l with
+    | nil => nil
+    | 0 :: t => nonzeros t
+    | h :: t => h :: (nonzeros t)
+    end.
+
+  Example test_nonzeros:
+    nonzeros [0;1;0;2;3;0;0] = [1;2;3].
+  Proof.
+    simpl. reflexivity. Qed.
+
+  Fixpoint even (n : nat) : bool :=
+    match n with
+    | O => true
+    | S O => false
+    | S (S n') => even n'
+    end.
+
+  Definition odd (n : nat) : bool :=
+    negb (even n).
+
+  Fixpoint oddmembers (l : natlist) : natlist :=
+    match l with
+    | nil => nil
+    | h :: t => if odd h then h :: oddmembers t else oddmembers t
+    end.
+
+  Example test_oddmembers:
+    oddmembers [0;1;0;2;3;0;0] = [1;3].
+  Proof.
+    simpl. reflexivity. Qed.
+
+  Fixpoint countoddmembers (l : natlist) : nat :=
+    match l with
+    | nil => O
+    | h :: t => if odd h then S (countoddmembers t) else countoddmembers t
+    end.
+
+  Example test_countoddmembers:
+    countoddmembers [1;0;3;1;4;5] = 4.
+  Proof.
+    simpl. reflexivity. Qed.
