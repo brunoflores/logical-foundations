@@ -317,3 +317,39 @@ Module NatList.
       forall l : natlist, pred (length l) = length (tl l).
   Proof.
     intros l. destruct l as [ | n l' ]; reflexivity. Qed.
+
+  Theorem app_assoc:
+    forall l1 l2 l3 : natlist,
+      (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3).
+  Proof.
+    intros l1 l2 l3. induction l1 as [ | n l1' IHl1' ].
+    - reflexivity.
+    - simpl. rewrite -> IHl1'. reflexivity. Qed.
+
+  Fixpoint rev (l : natlist) : natlist :=
+    match l with
+    | nil => nil
+    | h :: t => (rev t) ++ [h]
+    end.
+
+  Example test_rev1: rev [1;2;3] = [3;2;1].
+  Proof. reflexivity. Qed.
+  Example test_rev2: rev nil = nil.
+  Proof. reflexivity. Qed.
+
+  Theorem app_length:
+    forall l1 l2 : natlist, length (l1 ++ l2) = (length l1) + (length l2).
+  Proof.
+    intros l1 l2. induction l1 as [ | n l1' IHl1' ].
+    - reflexivity.
+    - simpl. rewrite -> IHl1'. reflexivity. Qed.
+
+  Theorem rev_length:
+    forall l : natlist, length (rev l) = length l.
+  Proof.
+    intros l. induction l as [ | n l' IHl' ].
+    - reflexivity.
+    - simpl. rewrite -> app_length.
+      simpl. rewrite -> IHl'. rewrite -> add_comm.
+      reflexivity.
+  Qed.
