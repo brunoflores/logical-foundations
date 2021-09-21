@@ -308,3 +308,12 @@ Module NatList.
       reflexivity.
     - simpl.
       rewrite -> beq_nat_refl. reflexivity. Qed.
+
+  Theorem nil_app:
+    forall l : natlist, [] ++ l = l.
+  Proof. reflexivity. Qed.
+
+  Theorem tl_length_pred:
+      forall l : natlist, pred (length l) = length (tl l).
+  Proof.
+    intros l. destruct l as [ | n l' ]; reflexivity. Qed.
