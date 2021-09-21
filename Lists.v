@@ -183,18 +183,21 @@ Module NatList.
 
   Definition bag := natlist.
 
-  Fixpoint eq_nat (n m : nat) : bool :=
+  Fixpoint beq_nat (n m : nat) : bool :=
     match n, m with
     | O, O => true
     | S _, O => false
     | O, S _ => false
-    | S n', S m' => eq_nat n' m'
+    | S n', S m' => beq_nat n' m'
     end.
 
   Fixpoint count (v : nat) (s : bag) : nat :=
     match s with
     | nil => O
-    | h :: t => if eq_nat h v then S (count v t) else count v t
+    | h :: t => match beq_nat h v with
+                | true => S (count v t)
+                | false => count v t
+                end
     end.
 
   Example test_count1: count 1 [1;2;3;1;4;1] = 3.
@@ -219,7 +222,7 @@ Module NatList.
   Proof. reflexivity. Qed.
 
   Definition member (v : nat) (s : bag) : bool :=
-  if eq_nat (count v s) 0 then false else true.
+  if beq_nat (count v s) 0 then false else true.
 
   Example test_member1: member 1 [1;4;1] = true.
   Proof. reflexivity. Qed.
@@ -230,7 +233,7 @@ Module NatList.
   Fixpoint remove_one (v : nat) (s : bag) : bag :=
     match s with
     | nil => nil
-    | h :: t => match (eq_nat v h) with
+    | h :: t => match (beq_nat v h) with
                 | true => t (* Halt recursion. *)
                 | false => h :: remove_one v t
                 end
@@ -255,7 +258,7 @@ Module NatList.
   Fixpoint remove_all (v : nat) (s : bag) : bag :=
     match s with
     | nil => nil
-    | h :: t => match eq_nat v h with
+    | h :: t => match beq_nat v h with
                 | true => remove_all v t
                 | false => h :: remove_all v t
                 end
@@ -287,3 +290,21 @@ Module NatList.
 
   Example test_subset2: subset [1;2;2] [2;1;4;1] = false.
   Proof. reflexivity. Qed.
+
+  Theorem beq_nat_refl:
+    forall n : nat, beq_nat n n = true.
+  Proof.
+    induction n.
+    - reflexivity.
+    - simpl. rewrite -> IHn. reflexivity. Qed.
+
+  Theorem bag_theorem:
+    forall v s, count v (add v s) = S (count v s).
+  Proof.
+    intros v s.
+    induction s as [ | h t ].
+    - simpl.
+      rewrite -> beq_nat_refl.
+      reflexivity.
+    - simpl.
+      rewrite -> beq_nat_refl. reflexivity. Qed.
