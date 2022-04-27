@@ -79,16 +79,14 @@ Notation "x || y" := (orb x y).
 Example test_orb5 : false || false || true = true.
 Proof. simpl. reflexivity. Qed.
 
+(* Exercise *)
 Definition nandb (b1 b2 : bool) : bool :=
   match b1 with
   | true => match b2 with
             | true => false
             | false => true
             end
-  | false => match b2 with
-             | true => true
-             | false => true
-             end
+  | false => true
   end.
 
 Example test_nandb1 : (nandb true false) = true.
@@ -103,9 +101,7 @@ Proof. simpl. reflexivity. Qed.
 Definition andb3 (b1 b2 b3 : bool) : bool :=
   match b1, b2, b3 with
   | true, true, true => true
-  | false, _, _ => false
-  | _, false, _ => false
-  | _, _, false => false
+  | _, _, _ => false
   end.
 
 Example test_andb31: (andb3 true true true) = true.
@@ -116,6 +112,11 @@ Example test_andb33: (andb3 true false true) = false.
 Proof. simpl. reflexivity. Qed.
 Example test_andb34: (andb3 true true false) = false.
 Proof. simpl. reflexivity. Qed.
+
+(* Check type with assertion *)
+Check true : bool.
+Check (negb true) : bool.
+Check negb : bool -> bool.
 
 Inductive rgb : Type :=
   | red
