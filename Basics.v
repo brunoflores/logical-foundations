@@ -1,3 +1,5 @@
+(* Type inference *)
+
 Inductive day : Type :=
   | monday
   | tuesday
@@ -17,6 +19,14 @@ Definition next_weekday (d : day) : day :=
   | saturday => monday
   | sunday => monday
   end.
+
+Check day.
+Check next_weekday.
+
+(* Examples *)
+
+Compute (next_weekday friday).
+Compute (next_weekday (next_weekday saturday)).
 
 Example test_next_weekday:
   (next_weekday (next_weekday saturday)) = tuesday.
