@@ -374,3 +374,21 @@ Module NatList.
     intros l. induction l as [ | n l' IHl' ].
     - reflexivity.
     - simpl. rewrite -> rev_app_distr. rewrite -> IHl'. reflexivity. Qed.
+
+  Theorem app_assoc4:
+    forall l1 l2 l3 l4 : natlist,
+      l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
+  Proof.
+    intros l1 l2 l3 l4.
+    replace (((l1 ++ l2) ++ l3) ++ l4) with ((l1 ++ l2) ++ l3 ++ l4).
+    rewrite -> app_assoc. reflexivity.
+    rewrite <- app_assoc. reflexivity. Qed.
+
+  Lemma nonzeros_app : forall l1 l2 : natlist,
+      nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
+  Proof.
+    intros l1 l2. induction l1 as [ | h1 t1 ].
+    - reflexivity.
+    - simpl.
+  Abort.
+End NatList.

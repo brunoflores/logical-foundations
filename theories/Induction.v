@@ -216,3 +216,5 @@ Fixpoint bin_to_nat (m : bin) : nat :=
   | B1 (B1 m') => S (S (S (bin_to_nat m')))
   | B1 m' => S (bin_to_nat m')
   end.
+
+(* TODO: Exercise: 3 stars, standard, especially useful (binary_commute) *)

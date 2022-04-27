@@ -1,3 +1,5 @@
--Q ./build LF
-Basics.v
-Induction.v
+-R theories/ LF
+-arg "-w all"
+theories/Basics.v
+theories/Induction.v
+theories/Lists.v
