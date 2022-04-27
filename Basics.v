@@ -34,6 +34,8 @@ Proof. simpl. reflexivity. Qed.
 
 From Coq Require Export String.
 
+(* Multi-argument functions *)
+
 Inductive bool : Type :=
   | true
   | false.
@@ -56,15 +58,25 @@ Definition orb (b1 b2 : bool) : bool :=
   | false => b2
   end.
 
+Check orb.
+
+(* Truth table for the orb function *)
+
 Example test_orb1 : (orb true false) = true.
 Proof. simpl. reflexivity. Qed.
 Example test_orb2 : (orb false false) = false.
 Proof. simpl. reflexivity. Qed.
+Example test_orb3 : (orb false true) = true.
+Proof. simpl. reflexivity. Qed.
+Example test_orb4 : (orb true true) = true.
+Proof. simpl. reflexivity. Qed.
+
+(* New symbolic notation *)
 
 Notation "x && y" := (andb x y).
 Notation "x || y" := (orb x y).
 
-Example test_orb3 : false || false || true = true.
+Example test_orb5 : false || false || true = true.
 Proof. simpl. reflexivity. Qed.
 
 Definition nandb (b1 b2 : bool) : bool :=
