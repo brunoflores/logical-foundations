@@ -130,9 +130,14 @@ Inductive color : Type :=
 
 Definition monochrome (c : color) : bool :=
   match c with
-  | black => true
-  | white => true
+  | black | white => true
   | primary _ => false
+  end.
+
+Definition isred c :=
+  match c with
+  | primary red => true
+  | _ => false
   end.
 
 Module TuplePlayground.
