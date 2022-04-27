@@ -155,10 +155,6 @@ Module TuplePlayground.
     end.
 End TuplePlayground.
 
-(**
- * The force of the <<Inductive>> declaration
- *)
-
 Module NatPlayground.
   Inductive nat : Type :=
     | O
