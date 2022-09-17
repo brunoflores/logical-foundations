@@ -151,7 +151,7 @@ Inductive bin : Type :=
 Fixpoint incr (m : bin) : bin :=
   match m with
   | Z => B1 Z
-  | B0 Z => B0 Z
+  | B0 Z => B1 Z
   | B0 (B1 m') => B1 (B1 m')
   | B0 (B0 m') => B1 (B0 m')
   | B1 m' => B0 (incr m')
@@ -159,7 +159,7 @@ Fixpoint incr (m : bin) : bin :=
 
 Fixpoint bin_to_nat (m : bin) : nat :=
   match m with
-  | Z => O
+  | Z | B0 Z => O
   | B0 m' => S (bin_to_nat m')
   | B1 (B1 m') => S (S (S (bin_to_nat m')))
   | B1 m' => S (bin_to_nat m')
@@ -185,3 +185,16 @@ Example test_bin_incr6 :
   bin_to_nat (incr (incr (B1 Z))) = 2 + bin_to_nat (B1 Z).
 Proof. reflexivity. Qed.
 
+(* Incrementing a binary number and then converting it to a unary natural
+   number yields the same result as first converting it to a natural number
+   and then incrementing. *)
+Theorem bin_to_nat_pres_incr : forall b : bin,
+  bin_to_nat (incr b) = 1 + bin_to_nat b.
+Proof. Admitted.
+  (*
+  induction b as [ | b' IHb' | b''].
+  - (* when b is Z, 1=1 *) reflexivity.
+  - simpl. induction b' as [ | bb' IHbb' | bb''].
+    + simpl incr. simpl bin_to_nat. reflexivity.
+    +
+  *)
