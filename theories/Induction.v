@@ -145,8 +145,8 @@ Proof.
 
 Inductive bin : Type :=
   | Z
-  | B0 (n : bin)
-  | B1 (n : bin).
+  | B0 (_ : bin)
+  | B1 (_ : bin).
 
 Fixpoint incr (m : bin) : bin :=
   match m with
