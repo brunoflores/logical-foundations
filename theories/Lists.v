@@ -323,28 +323,26 @@ Module NatList.
     - simpl. rewrite -> app_length.
       simpl. rewrite -> IHl'. rewrite -> add_comm. reflexivity. Qed.
 
-  Theorem app_nil_r:
-    forall l : natlist, l ++ [] = l.
+  Theorem app_nil_r : forall l : natlist, l ++ [] = l.
   Proof.
     intros l. induction l as [ | n l' IHl' ].
     - reflexivity.
     - simpl. rewrite -> IHl'. reflexivity. Qed.
 
-  Theorem rev_app_distr:
+  Theorem rev_app_distr :
     forall l1 l2 : natlist, rev (l1 ++ l2) = rev l2 ++ rev l1.
   Proof.
     intros l1 l2. induction l1 as [ | n l1' IHl1' ].
     - simpl. rewrite -> app_nil_r. reflexivity.
     - simpl. rewrite -> IHl1'. rewrite <- app_assoc. reflexivity. Qed.
 
-  Theorem rev_involutive:
-    forall l : natlist, rev (rev l) = l.
+  Theorem rev_involutive : forall l : natlist, rev (rev l) = l.
   Proof.
     intros l. induction l as [ | n l' IHl' ].
     - reflexivity.
     - simpl. rewrite -> rev_app_distr. rewrite -> IHl'. reflexivity. Qed.
 
-  Theorem app_assoc4:
+  Theorem app_assoc4 :
     forall l1 l2 l3 l4 : natlist,
       l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
   Proof.
@@ -354,11 +352,24 @@ Module NatList.
     rewrite <- app_assoc. reflexivity. Qed.
 
   Lemma nonzeros_app : forall l1 l2 : natlist,
-      nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
+    nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
   Proof.
     intros l1 l2. induction l1 as [ | h1 t1 ].
     - reflexivity.
     - simpl.
   Abort.
+
+  (* Partial maps *)
+
+  Inductive id : Type :=
+    | Id : nat -> id.
+
+  Definition eqb_id (x1 x2 : id) :=
+    match x1, x2 with
+    | Id n1, Id n2 => eqb' n1 n2
+    end.
+
+  Theorem eqb_id_refl : forall x, eqb_id x x = true.
+  Proof. intro x. induction x. simpl. Abort.
 
 End NatList.
