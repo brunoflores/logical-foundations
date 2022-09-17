@@ -83,10 +83,8 @@ Theorem plus_rearrange :
   forall n m p q : nat, (n + m) + (p + q) = (m + n) + (p + q).
 Proof.
   intros n m p q.
-  assert (H: n + m = m + n).
-  { rewrite -> add_comm. reflexivity. }
-  rewrite -> H. reflexivity.
-Qed.
+  assert (H: n + m = m + n). { rewrite -> add_comm. reflexivity. }
+  rewrite -> H. reflexivity. Qed.
 
 Theorem plus_swap :
   forall n m p : nat, n + (m + p) = m + (n + p).
