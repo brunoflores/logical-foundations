@@ -164,3 +164,24 @@ Fixpoint bin_to_nat (m : bin) : nat :=
   | B1 (B1 m') => S (S (S (bin_to_nat m')))
   | B1 m' => S (bin_to_nat m')
   end.
+
+Example test_bin_incr1 : (incr (B1 Z)) = B0 (B1 Z).
+Proof. reflexivity. Qed.
+
+Example test_bin_incr2 : (incr (B0 (B1 Z))) = B1 (B1 Z).
+Proof. reflexivity. Qed.
+
+Example test_bin_incr3 : (incr (B1 (B1 Z))) = B0 (B0 (B1 Z)).
+Proof. reflexivity. Qed.
+
+Example test_bin_incr4 : bin_to_nat (B0 (B1 Z)) = 2.
+Proof. reflexivity. Qed.
+
+Example test_bin_incr5 :
+  bin_to_nat (incr (B1 Z)) = 1 + bin_to_nat (B1 Z).
+Proof. reflexivity. Qed.
+
+Example test_bin_incr6 :
+  bin_to_nat (incr (incr (B1 Z))) = 2 + bin_to_nat (B1 Z).
+Proof. reflexivity. Qed.
+
