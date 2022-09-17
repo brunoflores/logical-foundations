@@ -9,6 +9,7 @@ Inductive day : Type :=
   | saturday
   | sunday.
 
+(* A definition can be later extracted to code. *)
 Definition next_weekday (d : day) : day :=
   match d with
   | monday => tuesday
@@ -28,9 +29,13 @@ Check next_weekday.
 Compute (next_weekday friday).
 Compute (next_weekday (next_weekday saturday)).
 
+(* An example records what we *expect* the result to be: *)
 Example test_next_weekday:
   (next_weekday (next_weekday saturday)) = tuesday.
-Proof. simpl. reflexivity. Qed.
+Proof.
+  simpl. reflexivity. (* both sides evaluate to the same thing *)
+Qed.
+(* It becomes a named assertion that we can use again later. *)
 
 From Coq Require Export String.
 
@@ -306,7 +311,9 @@ Proof. simpl. reflexivity. Qed.
 
 Theorem plus_O_n : forall n : nat, 0 + n = n.
 Proof.
-  intros n. simpl. reflexivity.
+  intros n.
+  (* simpl. *)
+  reflexivity.
 Qed.
 
 Theorem plus_1_l : forall n : nat, 1 + n = S n.
