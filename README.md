@@ -2,16 +2,9 @@
 
 Logical Foundations.
 
-https://www.seas.upenn.edu/~cis500/current/sf/lf-current
-
-After updating `_CoqProject`:
+https://softwarefoundations.cis.upenn.edu/lf-current/index.html
 
 ```
-coq_makefile -f _CoqProject -o Makefile
-```
-
-Build all:
-
-```
-make
+$ coq_makefile -f _CoqProject -o Makefile
+$ make
 ```
