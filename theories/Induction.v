@@ -90,17 +90,12 @@ Theorem plus_swap :
   forall n m p : nat, n + (m + p) = m + (n + p).
 Proof.
   intros n m p.
-  assert (H0: n + (m + p) = (n + m) + p).
-  { rewrite -> add_assoc. reflexivity. }
+  assert (H0: n + (m + p) = (n + m) + p). { rewrite -> add_assoc. reflexivity. }
   rewrite -> H0.
-  assert (H1: m + (n + p) = m + n + p).
-  { rewrite -> add_assoc. reflexivity. }
+  assert (H1: m + (n + p) = m + n + p). { rewrite -> add_assoc. reflexivity. }
   rewrite -> H1.
-  assert (H2: n + m = m + n).
-  { rewrite -> add_comm. reflexivity. }
-  rewrite -> H2.
-  reflexivity.
-Qed.
+  assert (H2: n + m = m + n). { rewrite -> add_comm. reflexivity. }
+  rewrite -> H2. reflexivity. Qed.
 
 Theorem add_shuffle3 :
   forall n m p : nat, n + (m + p) = m + (n + p).
@@ -123,8 +118,7 @@ Proof.
   assert (H2 : n + m = m + n).
   { rewrite -> add_comm. reflexivity. }
   rewrite -> H2.
-  reflexivity.
-Qed.
+  reflexivity. Qed.
 
 Theorem add_shuffle3' :
   forall n m p : nat, n + (m + p) = m + (n + p).
@@ -135,23 +129,19 @@ Proof.
   { rewrite -> add_comm. reflexivity. }
   rewrite -> H0.
   rewrite -> add_assoc.
-  reflexivity.
-Qed.
+  reflexivity. Qed.
 
 Theorem mul_comm :
   forall m n : nat, m * n = n * m.
 Proof.
   induction n as [ | n' IHn' ].
+  - simpl. auto.
   - simpl.
-    auto.
-  - simpl.
-    assert (H0: m * S n' = m * n' + m).
-    { auto. }
+    assert (H0: m * S n' = m * n' + m). { auto. }
     rewrite -> H0.
     rewrite -> add_comm.
     rewrite -> IHn'.
-    reflexivity.
-Qed.
+    reflexivity. Qed.
 
 Inductive bin : Type :=
   | Z
@@ -174,5 +164,3 @@ Fixpoint bin_to_nat (m : bin) : nat :=
   | B1 (B1 m') => S (S (S (bin_to_nat m')))
   | B1 m' => S (bin_to_nat m')
   end.
-
-(* TODO: Exercise: 3 stars, standard, especially useful (binary_commute) *)
