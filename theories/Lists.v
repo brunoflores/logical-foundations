@@ -359,6 +359,10 @@ Module NatList.
     - simpl.
   Abort.
 
+  Inductive natoption : Type :=
+  | Some : nat -> natoption
+  | None.
+
   (* Partial maps *)
 
   Inductive id : Type :=
@@ -378,3 +382,26 @@ Module NatList.
          - simpl. rewrite -> IHn. reflexivity. Qed.
 
 End NatList.
+
+Module PartialMap.
+  Export NatList.
+
+  Inductive partial_map : Type :=
+  | empty : partial_map
+  | record : id -> nat -> partial_map -> partial_map.
+
+  Definition update (d : partial_map) (x : id) (v : nat) : partial_map :=
+    record x v d.
+
+  Fixpoint find (x : id) (d : partial_map) : natoption :=
+    match d with
+    | empty => None
+    | record y v d' => if eqb_id x y then Some v else find x d'
+    end.
+
+  Theorem update_eq : forall (d : partial_map) (x : id) (v : nat),
+      find x (update d x v) = Some v.
+  Proof. intros d x v.
+         simpl find. rewrite -> eqb_id_refl. reflexivity. Qed.
+
+End PartialMap.
