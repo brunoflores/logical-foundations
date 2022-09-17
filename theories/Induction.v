@@ -151,18 +151,15 @@ Inductive bin : Type :=
 Fixpoint incr (m : bin) : bin :=
   match m with
   | Z => B1 Z
-  | B0 Z => B1 Z
-  | B0 (B1 m') => B1 (B1 m')
-  | B0 (B0 m') => B1 (B0 m')
+  | B0 m' => B1 m'
   | B1 m' => B0 (incr m')
   end.
 
 Fixpoint bin_to_nat (m : bin) : nat :=
   match m with
-  | Z | B0 Z => O
-  | B0 m' => S (bin_to_nat m')
-  | B1 (B1 m') => S (S (S (bin_to_nat m')))
-  | B1 m' => S (bin_to_nat m')
+  | Z => O
+  | B0 m' => 2 * (bin_to_nat m')
+  | B1 m' => 1 + 2 * (bin_to_nat m')
   end.
 
 Example test_bin_incr1 : (incr (B1 Z)) = B0 (B1 Z).
@@ -190,11 +187,18 @@ Proof. reflexivity. Qed.
    and then incrementing. *)
 Theorem bin_to_nat_pres_incr : forall b : bin,
   bin_to_nat (incr b) = 1 + bin_to_nat b.
-Proof. Admitted.
-  (*
-  induction b as [ | b' IHb' | b''].
-  - (* when b is Z, 1=1 *) reflexivity.
-  - simpl. induction b' as [ | bb' IHbb' | bb''].
-    + simpl incr. simpl bin_to_nat. reflexivity.
-    +
-  *)
+Proof.
+  induction b as [ | b' | b'' IHb''].
+  - reflexivity.
+  - reflexivity.
+  - simpl.
+    rewrite IHb''. simpl.
+    replace (bin_to_nat b'' + 0)
+      with  (bin_to_nat b'').
+    replace (S (bin_to_nat b'' + bin_to_nat b''))
+      with  ((bin_to_nat b'')  + S (bin_to_nat b'')).
+    reflexivity.
+    rewrite -> plus_n_Sm.
+    reflexivity.
+    rewrite <- plus_n_O.
+    reflexivity. Qed.
