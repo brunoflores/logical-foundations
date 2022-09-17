@@ -8,24 +8,27 @@ Module NatList.
 
   Definition fst (p : natprod) : nat :=
     match p with
-    | pair x y => x
+    | pair x _ => x
     end.
 
   Definition snd (p : natprod) : nat :=
     match p with
-    | pair x y => y
+    | pair _ y => y
     end.
+
+  Example test_fst : (fst (pair 3 5)) = 3.
+  Proof. reflexivity. Qed.
 
   Notation "( x , y )" := (pair x y).
 
   Definition fst' (p : natprod) : nat :=
     match p with
-    | (x, y) => x
+    | (x, _) => x
     end.
 
   Definition snd' (p : natprod) : nat :=
     match p with
-    | (x, y) => y
+    | (_, y) => y
     end.
 
   Definition swap_pair (p : natprod) : natprod :=
@@ -35,15 +38,13 @@ Module NatList.
 
   Theorem surjective_pairing' :
     forall (n m : nat), (n, m) = (fst (n, m), snd (n, m)).
-  Proof.
-    reflexivity. Qed.
+  Proof. reflexivity. Qed.
 
   Theorem surjective_pairing :
     forall (p : natprod), p = (fst p, snd p).
   Proof.
     intros p.
     destruct p as [n m].
-    simpl.
     reflexivity. Qed.
 
   Theorem snd_fst_is_swap :
@@ -51,7 +52,6 @@ Module NatList.
   Proof.
     intros p.
     destruct p as [n m].
-    simpl.
     reflexivity. Qed.
 
   Theorem fst_swap_is_snd :
@@ -59,7 +59,6 @@ Module NatList.
   Proof.
     intros p.
     destruct p as [n m].
-    simpl.
     reflexivity. Qed.
 
   Inductive natlist : Type :=

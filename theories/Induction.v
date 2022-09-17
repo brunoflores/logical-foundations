@@ -190,9 +190,9 @@ Theorem bin_to_nat_pres_incr : forall b : bin,
 Proof.
   induction b as [ | b' | b'' IHb''].
   - reflexivity.
-  - reflexivity.
-  - simpl.
-    rewrite IHb''. simpl.
+  - simpl incr. simpl bin_to_nat. simpl. reflexivity.
+  - simpl incr. simpl bin_to_nat.
+    rewrite -> IHb''. simpl.
     replace (bin_to_nat b'' + 0)
       with  (bin_to_nat b'').
     replace (S (bin_to_nat b'' + bin_to_nat b''))
