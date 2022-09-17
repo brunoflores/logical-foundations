@@ -1,6 +1,6 @@
 From LF Require Export Basics.
 
-(* The point here is to show we need induction to prove things over
+(* The point here is to show that we need induction to prove things over
    all naturals. *)
 
 Theorem plus_n_O_left :
@@ -29,72 +29,37 @@ Theorem plus_n_O :
 Proof.
   induction n as [ | n' IHn'].
   - (* n = 0 *) reflexivity.
-  - (* n = S n' *) simpl. rewrite <- IHn'. reflexivity.
-Qed.
+  - (* n = S n' *) simpl. rewrite <- IHn'. reflexivity. Qed.
 
-Theorem minus_n_n :
-  forall n, minus n n = 0.
-Proof.
-  induction n as [| n' IHn'].
-  - simpl.
-    reflexivity.
-  - simpl.
-    rewrite -> IHn'.
-    reflexivity.
-Qed.
-
-(* Exercise 2: *)
-
-Theorem mult_0_r :
-  forall n : nat, n * 0 = 0.
+Theorem minus_n_n : forall n, minus n n = 0.
 Proof.
   induction n as [ | n' IHn'].
-  - simpl.
-    reflexivity.
-  - simpl.
-    rewrite -> IHn'.
-    reflexivity.
-Qed.
+  - (* n = O *) simpl. reflexivity.
+  - (* n = S n' *) simpl. rewrite -> IHn'. reflexivity. Qed.
 
-Theorem plus_n_Sm :
-  forall n m : nat, S (n + m) = n + (S m).
+Theorem mult_0_r : forall n : nat, n * 0 = 0.
 Proof.
   induction n as [ | n' IHn'].
-  - intros m.
-    simpl.
-    reflexivity.
-  - simpl.
-    intros m.
-    rewrite -> IHn'.
-    reflexivity.
-Qed.
+  - simpl. reflexivity.
+  - simpl. rewrite -> IHn'. reflexivity. Qed.
 
-Theorem add_comm :
-  forall n m : nat, n + m = m + n.
+Theorem plus_n_Sm : forall n m : nat, S (n + m) = n + (S m).
 Proof.
-  induction n as [| n' IHn'].
-  - intros m.
-    simpl.
-    rewrite <- plus_n_O.
-    reflexivity.
-  - intros m.
-    simpl.
-    rewrite -> IHn'.
-    rewrite -> plus_n_Sm.
-    reflexivity.
-Qed.
+  induction n as [ | n' IHn'].
+  - intros m. simpl. reflexivity.
+  - simpl. intros m. rewrite -> IHn'. reflexivity. Qed.
 
-Theorem add_assoc :
-  forall n m p : nat, n + (m + p) = (n + m) + p.
+Theorem add_comm : forall n m : nat, n + m = m + n.
 Proof.
-  induction n as [| n' IHn'].
-  - simpl.
-    reflexivity.
-  - simpl.
-    intros m p.
-    rewrite -> IHn'.
-    reflexivity.
-Qed.
+  induction n as [ | n' IHn'].
+  - intros m. simpl. rewrite <- plus_n_O. reflexivity.
+  - intros m. simpl. rewrite -> IHn'. rewrite -> plus_n_Sm. reflexivity. Qed.
+
+Theorem add_assoc : forall n m p : nat, n + (m + p) = (n + m) + p.
+Proof.
+  induction n as [ | n' IHn'].
+  - simpl. reflexivity.
+  - simpl. intros m p. rewrite -> IHn'. reflexivity. Qed.
 
 Fixpoint double (n : nat) :=
   match n with
@@ -102,22 +67,17 @@ Fixpoint double (n : nat) :=
   | S n' => S (S (double n'))
   end.
 
-Lemma double_plus :
-  forall n, double n = n + n.
+Lemma double_plus : forall n, double n = n + n.
 Proof.
   induction n.
-  - simpl. reflexivity.
-  - simpl. rewrite -> IHn. rewrite -> plus_n_Sm. reflexivity.
-Qed.
+  - (* double of zero is zero *) simpl. reflexivity.
+  - simpl double. rewrite -> IHn. rewrite -> plus_n_Sm. simpl. reflexivity. Qed.
 
-Theorem mult_0_plus' :
-  forall n m : nat, (0 + n) * m = n * m.
+Theorem mult_0_plus' : forall n m : nat, (0 + n) * m = n * m.
 Proof.
   intros n m.
   assert (H: 0 + n = n). { reflexivity. }
-  rewrite -> H.
-  reflexivity.
-Qed.
+  rewrite -> H. reflexivity. Qed.
 
 Theorem plus_rearrange :
   forall n m p q : nat, (n + m) + (p + q) = (m + n) + (p + q).
