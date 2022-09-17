@@ -289,6 +289,9 @@ Proof. simpl. reflexivity. Qed.
 Notation "x =? y" := (eqb x y) (at level 70) : nat_scope.
 Notation "x <=? y" := (leb x y) (at level 70) : nat_scope.
 
+Example test_eqb : (42 =? 42) = true.
+Proof. reflexivity. Qed.
+
 Example test_leb3' : (4 <=? 2) = false.
 Proof. simpl. reflexivity. Qed.
 

@@ -366,10 +366,15 @@ Module NatList.
 
   Definition eqb_id (x1 x2 : id) :=
     match x1, x2 with
-    | Id n1, Id n2 => eqb' n1 n2
+    | Id n1, Id n2 => n1 =? n2
     end.
 
+  Example test_eqb : (42 =? 42) = true.
+  Proof. reflexivity. Qed.
+
   Theorem eqb_id_refl : forall x, eqb_id x x = true.
-  Proof. intro x. induction x. simpl. Abort.
+  Proof. intro x. induction x. simpl. induction n.
+         - reflexivity.
+         - simpl. rewrite -> IHn. reflexivity. Qed.
 
 End NatList.
