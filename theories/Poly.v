@@ -249,3 +249,14 @@ Definition option_map {X Y : Type} (f : X -> Y) (xo : option X) : option Y :=
   | None => None
   | Some x => Some (f x)
   end.
+
+Fixpoint fold {X Y : Type} (f : X -> Y -> Y) (l : list X) (b : Y) : Y :=
+  match l with
+  | nil => b
+  | h :: t => f h (fold f t b)
+  end.
+
+Check (fold andb) : list bool -> bool -> bool.
+
+Example fold_example1 : fold mult [1;2;3;4] 1 = 24.
+Proof. reflexivity. Qed.
