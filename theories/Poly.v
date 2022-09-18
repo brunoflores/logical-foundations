@@ -53,3 +53,17 @@ Fixpoint length {X:Type} (l : list X) : nat :=
 
 Example test_length : length (cons 1 (cons 2 (cons 3 nil))) = 3.
 Proof. reflexivity. Qed.
+
+Fail Definition mynil := nil.
+
+Check @nil : forall X : Type, list X.
+Definition mynil' := @nil nat.
+
+Notation "x :: y" := (cons x y)
+                    (at level 60, right associativity).
+Notation "[ ]" := nil.
+Notation "[ x ; .. ; y ]" := (cons x .. (cons y []) ..).
+Notation "x ++ y" := (app x y)
+                     (at level 60, right associativity).
+
+Definition list123 := [1; 2; 3].
