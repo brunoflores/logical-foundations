@@ -60,3 +60,42 @@ Lemma and_example3 :
   forall n m : nat, n + m = 0 -> n * m = 0.
 Proof. intros n m H. apply and_exercise in H.
        destruct H as [Hn Hm]. rewrite Hn. reflexivity. Qed.
+
+Lemma proj1 : forall P Q : Prop, P /\ Q -> P.
+Proof. intros P Q HPQ. destruct HPQ as [HP _]. apply HP. Qed.
+
+Lemma proj2 : forall P Q : Prop, P /\ Q -> Q.
+Proof. intros P Q [_ HQ]. apply HQ. Qed.
+
+Theorem and_cummut : forall P Q : Prop, P /\ Q -> Q /\ P.
+Proof. intros P Q [HP HQ]. split.
+       - apply HQ.
+       - apply HP. Qed.
+
+Theorem and_assoc : forall P Q R : Prop,
+  P /\ (Q /\ R) -> (P /\ Q) /\ R.
+Proof. intros P Q R [HP [HQ HR]]. split.
+       - split.
+         + apply HP.
+         + apply HQ.
+       - apply HR. Qed.
+
+Lemma mult_n_0 : forall n : nat, n * 0 = 0.
+Proof. intros n. induction n.
+       - reflexivity.
+       - simpl. rewrite -> IHn. reflexivity. Qed.
+
+Lemma factor_is_0 :
+  forall n m : nat, n = 0 \/ m = 0 -> n * m = 0.
+Proof. intros n m [Hn |Hm].
+       - rewrite -> Hn. reflexivity.
+       - rewrite -> Hm. rewrite -> mult_n_0. reflexivity. Qed.
+
+Lemma or_intro_l : forall A B : Prop, A -> A \/ B.
+Proof. intros A B HA. left. apply HA. Qed.
+
+Lemma zero_or_succ :
+  forall n : nat, n = 0 \/ n = S (pred n).
+Proof. intros [ | n'].
+       - left. reflexivity.
+       - right. reflexivity. Qed.
