@@ -138,3 +138,29 @@ Fixpoint split {X Y : Type} (l : list (X * Y)) : (list X) * (list Y) :=
 Example test_split :
   split [(1, false); (2, false)] = ([1; 2], [false; false]).
 Proof. reflexivity. Qed.
+
+Module OptionPlayground.
+Inductive option (X:Type) : Type :=
+  | Some : X -> option X
+  | None : option X.
+Arguments Some {X}.
+Arguments None {X}.
+End OptionPlayground.
+
+Fixpoint nth_error {X : Type} (l : list X) (n : nat) : option X :=
+  match l with
+  | nil => None
+  | a :: l' => match n with
+             | O => Some a
+             | S n' => nth_error l' n'
+             end
+  end.
+
+Example test_nth_error1 : nth_error [4; 5; 6; 7] 0 = Some 4.
+Proof. reflexivity. Qed.
+
+Example test_nth_error2 : nth_error [[1]; [2]] 1 = Some [2].
+Proof. reflexivity. Qed.
+
+Example test_nth_error3 : nth_error [true] 2 = None.
+Proof. reflexivity. Qed.
