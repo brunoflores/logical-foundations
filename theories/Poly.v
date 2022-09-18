@@ -95,5 +95,31 @@ Proof. intros X l1 l2. induction l1.
 Theorem rev_involutive : forall X : Type, forall l : list X, rev (rev l) = l.
 Proof. intros X l. induction l.
        - reflexivity.
-       - simpl. rewrite -> rev_app_distr. simpl. rewrite -> IHl. reflexivity.
-Qed.
+       - simpl. rewrite -> rev_app_distr. rewrite -> IHl. reflexivity. Qed.
+
+(* Polymorphic Pairs *)
+
+Inductive prod (X Y : Type) : Type :=
+  | pair : X -> Y -> prod X Y.
+
+Arguments pair {X} {Y}.
+
+Notation "( x , y )" := (pair x y).
+Notation "X * Y" := (prod X Y) : type_scope.
+
+Definition fst {X Y : Type} (p : X * Y) : X :=
+  match p with
+  | (x, _) => x
+  end.
+
+Definition snd {X Y : Type} (p : X * Y) : Y :=
+  match p with
+  | (_, y) => y
+  end.
+
+Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y) : list (X * Y) :=
+  match lx, ly with
+  | [], _ => []
+  | _, [] => []
+  | x :: tx, y :: ty => (x, y) :: (combine tx ty)
+  end.
