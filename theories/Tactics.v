@@ -98,3 +98,8 @@ Proof. intros n m H. apply f_equal. apply H. Qed.
 Theorem eq_implies_succ_equal' : forall (n m : nat),
   n = m -> S n = S m.
 Proof. intros n m H. f_equal. apply H. Qed.
+
+Theorem S_inj : forall (n m : nat) (b : bool),
+  ((S n) =? (S m)) = b ->
+  (n =? m) = b.
+Proof. intros n m b H. simpl in H. apply H. Qed.
