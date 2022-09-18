@@ -178,3 +178,27 @@ Proof. reflexivity. Qed.
 
 Example test_hd_error2 : hd_error [[1]; [2]] = Some [1].
 Proof. reflexivity. Qed.
+
+Fixpoint filter {X:Type} (test : X -> bool) (l : list X) : list X :=
+  match l with
+  | [] => []
+  | h :: t => if test h then h :: (filter test t)
+            else filter test t
+  end.
+
+Fixpoint even (n : nat) : bool :=
+  match n with
+  | O => true
+  | S O => false
+  | S (S n') => even n'
+  end.
+
+Example test_filter1 : filter even [1; 2; 3; 4] = [2; 4].
+Proof. reflexivity. Qed.
+
+Definition length_is_1 {X : Type} (l : list X) : bool := (length l) =? 1.
+
+Example test_filter2 :
+  filter length_is_1
+         [ [1; 2]; [3]; [4]; [5; 6; 7]; []; [8] ] = [ [3]; [4]; [8] ].
+Proof. reflexivity. Qed.
