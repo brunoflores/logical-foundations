@@ -202,3 +202,13 @@ Example test_filter2 :
   filter length_is_1
          [ [1; 2]; [3]; [4]; [5; 6; 7]; []; [8] ] = [ [3]; [4]; [8] ].
 Proof. reflexivity. Qed.
+
+Check (fun (n : nat) => n * n) : nat -> nat.
+
+Definition partition {X : Type}
+                     (test : X -> bool)
+                     (l : list X) : list X * list X :=
+  (filter test l, filter (fun n => negb (test n)) l).
+
+Example test_partition1 : partition oddb [1; 2; 3; 4; 5] = ([1; 3; 5], [2; 4]).
+Proof. reflexivity. Qed.
