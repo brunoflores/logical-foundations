@@ -99,3 +99,16 @@ Lemma zero_or_succ :
 Proof. intros [ | n'].
        - left. reflexivity.
        - right. reflexivity. Qed.
+
+Lemma mult_is_0 :
+  forall n m, n * m = 0 -> n = 0 \/ m = 0.
+Proof. intros n m H. destruct n.
+       - left. reflexivity.
+       - right. destruct m.
+         + reflexivity.
+         + discriminate H. Qed.
+
+Theorem or_commut : forall P Q : Prop, P \/ Q -> Q \/ P.
+Proof. intros P Q H. inversion H as [HP | HQ].
+       - right. apply HP.
+       - left. apply HQ. Qed.
