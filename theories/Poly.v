@@ -123,3 +123,18 @@ Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y) : list (X * Y) :=
   | _, [] => []
   | x :: tx, y :: ty => (x, y) :: (combine tx ty)
   end.
+
+Check @combine.
+Compute (combine [1; 2] [false; false; true; true]).
+
+Fixpoint split {X Y : Type} (l : list (X * Y)) : (list X) * (list Y) :=
+  match l with
+  | [] => ([], [])
+  | (x, y) :: t => match (split t) with
+                 | (xs, ys) => (x :: xs, y :: ys)
+                 end
+  end.
+
+Example test_split :
+  split [(1, false); (2, false)] = ([1; 2], [false; false]).
+Proof. reflexivity. Qed.
