@@ -4,3 +4,4 @@ theories/Basics.v
 theories/Induction.v
 theories/Lists.v
 theories/Poly.v
+theories/Tactics.v
