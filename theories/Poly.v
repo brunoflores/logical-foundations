@@ -67,3 +67,21 @@ Notation "x ++ y" := (app x y)
                      (at level 60, right associativity).
 
 Definition list123 := [1; 2; 3].
+
+(* Exercises *)
+
+Theorem app_nil_r : forall (X:Type), forall l:list X, l ++ [] = l.
+Proof. induction l.
+       - reflexivity.
+       - simpl. rewrite -> IHl. reflexivity. Qed.
+
+Theorem app_assoc : forall (A:Type) (l m n:list A), l ++ m ++ n = (l ++ m) ++ n.
+Proof. intros A l m n. induction l.
+       - reflexivity.
+       - simpl. rewrite -> IHl. reflexivity. Qed.
+
+Theorem app_length : forall (X:Type) (l1 l2 : list X),
+  length (l1 ++ l2) = length l1 + length l2.
+Proof. intros X l1 l2. induction l1.
+       - reflexivity.
+       - simpl length. rewrite -> IHl1. reflexivity. Qed.
